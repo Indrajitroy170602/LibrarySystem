@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2>Vidyasagar Library</h2>
+
+    <!-- Search Bar -->
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search books..." id="searchInput">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="searchBooks">Search</button>
+        </div>
+    </div>
+
+    <!-- Add Button -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal">
+        Add Book
+    </button>
+
+    <!-- Book Table -->
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Image</th>
+                <th>CoverPage</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="bookTableBody">
+            <!-- Book details will be dynamically populated here -->
+            {% for book in books %}
+            <tr data-id="{{ book.id }}">
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.isbn }}</td>
+                <td><input type="file" class="form-control-file image-upload" data-book-id="{{ book.id }}"></td>
+                <td><img src="{{ book.image_path }}" alt="Cover Page" width="100" height="100"></td>
+                <td><button class="btn btn-info edit-btn" data-toggle="modal" data-target="#editBookModal">Edit</button></td>
+                <td><button class="btn btn-danger delete-btn">Delete</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Add Book Modal -->
+    <div class="modal" id="addBookModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Book</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addBookForm">
+                        <div class="form-group">
+                            <label for="title">Title:</label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="author">Author:</label>
+                            <input type="text" class="form-control" id="author" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="isbn">ISBN:</label>
+                            <input type="text" class="form-control" id="isbn" required>
+                        </div>
+                        <button type="button" class="btn btn-success" id="saveBook">Save</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Book Modal -->
+    <div class="modal" id="editBookModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Book Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="editBookForm">
+                        <div class="form-group">
+                            <label for="editTitle">Id:</label>
+                            <input type="hidden" class="form-control" id="editId" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editTitle">Title:</label>
+                            <input type="text" class="form-control" id="editTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAuthor">Author:</label>
+                            <input type="text" class="form-control" id="editAuthor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editIsbn">ISBN:</label>
+                            <input type="text" class="form-control" id="editIsbn" required>
+                        </div>
+                        <button type="button" class="btn btn-success" id="updateBook">Update</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</div>
+
+</body>
+</html>
